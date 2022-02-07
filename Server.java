@@ -22,6 +22,7 @@ class Server {
             data.setLength(newBuffer.length);
             data.setData(newBuffer);
             socket.send(data);
+            /*test*/
         }
     }
 }
