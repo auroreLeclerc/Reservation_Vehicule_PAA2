@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.net.*;
 import java.util.Scanner;
 
@@ -5,22 +6,28 @@ public class Client {
     final static int port = 8532;
     final static int taille = 1024;
     final static byte buffer[] = new byte[taille];
-    public static void main(String argv[]) throws Exception {
-        InetAddress serveur = InetAddress.getByName(argv[0]);
-        int length = argv[1].length();
-        byte buffer[] = argv[1].getBytes();
-        DatagramPacket dataSent = new DatagramPacket(buffer, length, serveur, port);
+    private static Scanner scan;
+    private InetAddress serveur;
 
+    Client(String ip) throws UnknownHostException {
+        this.serveur = InetAddress.getByName(ip);
+    }
+
+    public void query(String input) throws IOException {
         System.out.println("Connection au serveur");
-        Scanner scan = new Scanner(System.in);
-        
+        //scan = new Scanner(System.in);
         try (DatagramSocket socket = new DatagramSocket()) {
-            String message = scan.nextLine();
+            //String message = scan.nextLine();
+            int length = input.length();
+            byte buffer[] = input.getBytes();
+            DatagramPacket dataSent = new DatagramPacket(buffer, length, this.serveur, port);
+            
             socket.send(dataSent);
             DatagramPacket dataReceived = new DatagramPacket(new byte[taille], taille);
             socket.receive(dataReceived);
+            
             System.out.println("Data received : " + new String(dataReceived.getData()));
-            System.out.println("From : " + dataReceived.getAddress() + ":" + dataReceived.getPort());
+            System.out.println("From : "+dataReceived.getAddress()+":"+dataReceived.getPort());
         }
     }
 }
