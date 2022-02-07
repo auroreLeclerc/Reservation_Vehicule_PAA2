@@ -7,12 +7,13 @@ class Server {
     
     public static void main(String argv[]) throws Exception {
         try (DatagramSocket socket = new DatagramSocket(port)) {
+            System.out.println("Server started on "+socket.getLocalAddress());
             while(true) {
                 DatagramPacket data = new DatagramPacket(buffer, buffer.length);
                 socket.receive(data);
                 String received = new String(data.getData(), 0, data.getLength());
 
-                System.out.println(data.getAddress()+"requested"+received);
+                System.out.println(data.getAddress()+" requested "+received);
 
                 String toBeSend;
 
@@ -22,7 +23,7 @@ class Server {
                     break;
                 
                     default:
-                        toBeSend="Commande Inconnue !";
+                        toBeSend="404 Not Found";
                     break;
                 }
 

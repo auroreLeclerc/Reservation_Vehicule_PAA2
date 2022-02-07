@@ -1,12 +1,10 @@
 import java.io.IOException;
 import java.net.*;
-import java.util.Scanner;
 
 public class Client {
     final static int port = 8532;
     final static int taille = 1024;
     final static byte buffer[] = new byte[taille];
-    private static Scanner scan;
     private InetAddress serveur;
 
     Client(String ip) throws UnknownHostException {
@@ -27,7 +25,7 @@ public class Client {
             socket.receive(dataReceived);
             
             System.out.println("Data received : " + new String(dataReceived.getData()));
-            System.out.println("From : "+dataReceived.getAddress()+":"+dataReceived.getPort());
+            //System.out.println("From : "+dataReceived.getAddress()+":"+dataReceived.getPort());
         }
     }
 }
