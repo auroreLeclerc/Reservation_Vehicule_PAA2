@@ -1,5 +1,5 @@
-import java.io.*;
 import java.net.*;
+import java.util.Scanner;
 
 public class Client {
     final static int port = 8532;
@@ -10,11 +10,17 @@ public class Client {
         int length = argv[1].length();
         byte buffer[] = argv[1].getBytes();
         DatagramPacket dataSent = new DatagramPacket(buffer, length, serveur, port);
-        DatagramSocket socket = new DatagramSocket();
-        socket.send(dataSent);
-        DatagramPacket dataReceived = new DatagramPacket(new byte[taille], taille);
-        socket.receive(dataReceived);
-        System.out.println("Data received : " + new String(dataReceived.getData()));
-        System.out.println("From : " + dataReceived.getAddress() + ":" + dataReceived.getPort());
+
+        System.out.println("Connection au serveur");
+        Scanner scan = new Scanner(System.in);
+        
+        try (DatagramSocket socket = new DatagramSocket()) {
+            String message = scan.nextLine();
+            socket.send(dataSent);
+            DatagramPacket dataReceived = new DatagramPacket(new byte[taille], taille);
+            socket.receive(dataReceived);
+            System.out.println("Data received : " + new String(dataReceived.getData()));
+            System.out.println("From : " + dataReceived.getAddress() + ":" + dataReceived.getPort());
+        }
     }
 }
