@@ -1,6 +1,9 @@
 package client;
 import java.io.IOException;
 import java.net.*;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Client {
     final static int port = 8532;
@@ -13,8 +16,13 @@ public class Client {
     }
 
     public void query(String input) throws IOException {
-        System.out.println("Connection au serveur");
-        //scan = new Scanner(System.in);
+        Logger logger = Logger.getLogger(Client.class.getName());
+        ConsoleHandler handler = new ConsoleHandler();
+        logger.setLevel(Level.FINE);
+        handler.setLevel(Level.FINE);
+        logger.addHandler(handler);
+        logger.log(Level.FINEST, "Connection au serveur");
+        
         try (DatagramSocket socket = new DatagramSocket()) {
             //String message = scan.nextLine();
             int length = input.length();
@@ -25,8 +33,8 @@ public class Client {
             DatagramPacket dataReceived = new DatagramPacket(new byte[taille], taille);
             socket.receive(dataReceived);
             
-            System.out.println("Data received : " + new String(dataReceived.getData()));
-            //System.out.println("From : "+dataReceived.getAddress()+":"+dataReceived.getPort());
+            logger.log(Level.INFO, new String(dataReceived.getData()));
+            logger.log(Level.FINE, "From "+dataReceived.getAddress()+":"+dataReceived.getPort());
         }
     }
 }
