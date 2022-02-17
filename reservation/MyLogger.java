@@ -7,12 +7,14 @@ import java.util.logging.Logger;
 public class MyLogger {
     private Logger logger;
     private ConsoleHandler handler = new ConsoleHandler();
+    private final Level level = Level.FINEST;
     
     public MyLogger(String className) {
-        Logger.getLogger(className);
-        this.logger.setLevel(Level.FINE);
-        this.handler.setLevel(Level.FINE);
-        this.logger.addHandler(handler);
+        this.logger = Logger.getLogger(className);
+        this.logger.setLevel(this.level);
+        this.handler.setLevel(this.level);
+        this.logger.addHandler(this.handler);
+        this.handler.setFormatter(new MyFormatter()); 
     }
 
     public void log(Level level, String msg){

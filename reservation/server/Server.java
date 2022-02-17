@@ -8,7 +8,7 @@ import reservation.MyLogger;
 import reservation.server.usine.Ouvrier;
 
 class Server extends java.lang.Thread {
-    final static int taille = 1024;
+    private final int taille;
     private DatagramSocket socket;
     private DatagramPacket data;
     private static ArrayList<reservation.server.usine.Voiture> voitures;
@@ -17,11 +17,12 @@ class Server extends java.lang.Thread {
     Server(DatagramSocket socket, DatagramPacket data, ArrayList<reservation.server.usine.Voiture> voitures) {
         this.socket = socket;
         this.data = data;
+        this.taille = data.getLength();
         Server.voitures = voitures;
     }
 
     public void run() {        
-        this.logger.log(Level.INFO, "Server started on "+this.socket.getLocalAddress());
+        this.logger.log(Level.INFO, "Server "+this.getName()+" started on "+this.socket.getLocalSocketAddress());
         
         String received = new String(data.getData(), 0, data.getLength());
 
@@ -59,5 +60,6 @@ class Server extends java.lang.Thread {
         } catch (IOException e) {
             this.logger.log(Level.SEVERE, String.valueOf(e));
         }
+        this.logger.log(Level.INFO, "Server "+this.getName()+" ended");
     }
 }
