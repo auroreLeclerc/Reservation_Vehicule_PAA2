@@ -1,4 +1,4 @@
-package client;
+package reservation.client;
 import java.io.IOException;
 import java.net.*;
 import java.util.logging.ConsoleHandler;

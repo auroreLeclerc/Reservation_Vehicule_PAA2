@@ -1,4 +1,4 @@
-package server.usine;
+package reservation.server.usine;
 
 import java.util.Random;
 

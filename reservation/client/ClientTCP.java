@@ -1,4 +1,4 @@
-package client;
+package reservation.client;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -7,23 +7,17 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ClientTCP {
     private Socket socket;
+    private reservation.MyLogger logger = new reservation.MyLogger(ClientTCP.class.getName());
 
     ClientTCP(Socket socket) {
         this.socket = socket;
     }
 
     public void query(String request) throws IOException {
-        Logger logger = Logger.getLogger(ClientTCP.class.getName());
-        ConsoleHandler handler = new ConsoleHandler();
-        logger.setLevel(Level.FINE);
-        handler.setLevel(Level.FINE);
-        logger.addHandler(handler);
 
         logger.log(Level.FINEST, "Connection au serveur");
 

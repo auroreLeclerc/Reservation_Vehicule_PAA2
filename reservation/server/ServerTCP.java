@@ -1,4 +1,4 @@
-package server;
+package reservation.server;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

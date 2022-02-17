@@ -1,10 +1,11 @@
-package client;
+package reservation.client;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
 
 public class LauncherTCP {
     public static void main(String argv[]) throws IOException {
+        System.out.println("Non fonctionnel, juste à vocation de test");
         Scanner scan = new Scanner(System.in);
         Socket socket = new Socket("127.0.0.1", 8080);
         ClientTCP client = new ClientTCP(socket);
