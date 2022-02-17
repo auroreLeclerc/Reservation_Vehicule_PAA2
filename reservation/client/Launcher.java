@@ -10,6 +10,7 @@ public class Launcher {
         DatagramSocket socket = new DatagramSocket();
         socket.setSoTimeout(6000);
         
+        client.query("tuto", socket);
         while(scan.hasNext()) {
             String message = scan.nextLine();
             client.query(message, socket);
