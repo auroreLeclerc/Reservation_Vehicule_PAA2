@@ -37,7 +37,7 @@ class Server extends java.lang.Thread {
         }
         else if (Character.isDigit(received.charAt(0))) {
             int index = Integer.parseInt(received);
-            this.logger.log(Level.FINE, "Un ouvrier travaille sur voiture n°"+index+" pendant "+voitures.get(index).getTempsPreparation()+"secondes");
+            this.logger.log(Level.FINE, "Un ouvrier travaille sur la voiture n°"+index+" pendant "+voitures.get(index).getTempsPreparation()+"ms");
             Ouvrier ouvrier = new Ouvrier(voitures.get(index));
             try {
                 ouvrier.prepare();

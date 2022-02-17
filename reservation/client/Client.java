@@ -6,9 +6,8 @@ import java.util.logging.Level;
 import reservation.MyLogger;
 
 public class Client {
-    final static int port = 8532;
-    final static int taille = 1024;
-    final static byte buffer[] = new byte[taille];
+    private final int port = 8532;
+    private final int taille = 1024;
     private InetAddress serveur;
     private MyLogger logger = new MyLogger(Client.class.getName());
 
