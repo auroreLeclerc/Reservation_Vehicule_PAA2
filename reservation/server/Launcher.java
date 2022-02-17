@@ -2,6 +2,7 @@ package reservation.server;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
@@ -14,7 +15,8 @@ public class Launcher {
     private final static byte buffer[] = new byte[taille];
     public static void main(String argv[]) throws IOException, InterruptedException {
         DatagramSocket socket = new DatagramSocket(port);
-        DatagramPacket data = new DatagramPacket(buffer, buffer.length);
+        InetAddress ip = InetAddress.getByName("127.0.0.1");
+        DatagramPacket data = new DatagramPacket(buffer, buffer.length, ip, port);
         ArrayList<reservation.server.usine.Voiture> voitures = new ArrayList<reservation.server.usine.Voiture>();
         MyLogger logger = new MyLogger(Server.class.getName());
         
