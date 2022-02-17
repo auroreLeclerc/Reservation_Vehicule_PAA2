@@ -16,22 +16,26 @@ public class Client {
         this.serveur = InetAddress.getByName(ip);
     }
 
-    public void query(String input) throws IOException {
+    public void query(String input, DatagramSocket socket) {
         this.logger.log(Level.FINEST, "Connection au serveur");
         
-        try (DatagramSocket socket = new DatagramSocket()) {
-            int length = input.length();
-            byte buffer[] = input.getBytes();
-            DatagramPacket dataSent = new DatagramPacket(buffer, length, this.serveur, port);
-            
+        int length = input.length();
+        byte buffer[] = input.getBytes();
+        DatagramPacket dataSent = new DatagramPacket(buffer, length, this.serveur, port);
+        
+        try {
             socket.send(dataSent);
-            DatagramPacket dataReceived = new DatagramPacket(new byte[taille], taille);
-            socket.receive(dataReceived);
-            
-            this.logger.log(Level.INFO, new String(dataReceived.getData()));
-            this.logger.log(Level.FINE, "From "+dataReceived.getAddress()+":"+dataReceived.getPort());
         } catch (IOException e) {
-            this.logger.log(Level.SEVERE, String.valueOf(e));
+            this.logger.log(Level.SEVERE, "Le serveur est injoignable", String.valueOf(e));
         }
+        DatagramPacket dataReceived = new DatagramPacket(new byte[taille], taille);
+        try {
+            socket.receive(dataReceived);
+        } catch (IOException e) {
+            this.logger.log(Level.SEVERE, "Le serveur est muet", String.valueOf(e));
+        }
+        
+        this.logger.log(Level.INFO, new String(dataReceived.getData()));
+        this.logger.log(Level.FINE, "From "+dataReceived.getAddress()+":"+dataReceived.getPort());
     }
 }

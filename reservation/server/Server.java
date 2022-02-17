@@ -50,9 +50,9 @@ class Server extends java.lang.Thread {
         }
         else toBeSend="404 Not Found";
 
-        byte newBuffer[] = new byte[taille];
+        byte newBuffer[] = new byte[this.taille];
         newBuffer = (toBeSend).getBytes();
-        data.setLength(newBuffer.length);
+        //data.setLength(this.taille);
         data.setData(newBuffer);
 
         try {

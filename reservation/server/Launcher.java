@@ -27,6 +27,7 @@ public class Launcher {
             socket.receive(data);
             Server server = new Server(socket, data, voitures);
             server.start();
+            //server.join();
         }
     }
 }
