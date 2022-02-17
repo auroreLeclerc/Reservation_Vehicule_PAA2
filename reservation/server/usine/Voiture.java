@@ -3,17 +3,19 @@ package reservation.server.usine;
 import java.util.Random;
 
 public class Voiture {
+    private int index = -1;
     private boolean disponible = true;
     private boolean prepare = false;
     private boolean sorti = false;
     private boolean vendu = false;
     private Integer tempsPreparation;
 
-    public Voiture() {
+    public Voiture(int index) {
         Random random = new Random();
         int min = 250;
         int max = 5000;        
         this.tempsPreparation = (int) random.nextInt((max-min)+1) + min; 
+        this.index=index;
     }
 
     public boolean isDisponible() {
@@ -46,6 +48,10 @@ public class Voiture {
 
     public void setVendu(boolean vendu) {
         this.vendu = vendu;
+    }
+
+    public int getIndex() {
+        return this.index;
     }
 
     public Integer getTempsPreparation() {

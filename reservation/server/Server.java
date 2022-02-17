@@ -21,6 +21,7 @@ class Server extends java.lang.Thread {
         Server.voitures = voitures;
     }
 
+    @Override
     public void run() {        
         this.logger.log(Level.INFO, "Server "+this.getName()+" started on "+this.socket.getLocalSocketAddress());
         
@@ -30,23 +31,33 @@ class Server extends java.lang.Thread {
 
         String toBeSend="\n";
 
-        if(received.equals("voiture")) {
+        if(received.equals("tuto")) toBeSend+=
+            "Commandes disponibles : \n"+
+            "tuto : afficher ce menu \n"+
+            "voiture : afficher la liste de voiture \n"+
+            "1 : numéro d'un voiture -> prépare la voiture ou prend la voiture pour un tour \n"+
+            "1V : vend la voiture \n"
+        ;
+        else if(received.equals("voiture")) {
             for (int i = 0; i < voitures.size(); i++) {
-                toBeSend+="Voiture n°"+i+" est "+(voitures.get(i).isDisponible() ? "est" : "n'est pas")+" disponible\n";
+                toBeSend+="Voiture n°"+i+" "+
+                    (voitures.get(i).isDisponible() ? 
+                        ((voitures.get(i).isPrepare() ? "est" : "n'est pas")+" préparée\n") :
+                        "n'est pas disponible"
+                    )
+                ;
             }
         }
-        else if (Character.isDigit(received.charAt(0))) {
+        else if (Character.isDigit(received.charAt(0))&&!Character.isDigit(received.charAt(received.length()))) {
             int index = Integer.parseInt(received);
-            this.logger.log(Level.FINE, "Un ouvrier travaille sur la voiture n°"+index+" pendant "+voitures.get(index).getTempsPreparation()+"ms");
             Ouvrier ouvrier = new Ouvrier(voitures.get(index));
-            try {
-                ouvrier.prepare();
-            } catch (InterruptedException e) {
-                voitures.get(index).setPrepare(false);
-                voitures.get(index).setDisponible(true);
-                this.logger.log(Level.SEVERE, "L'ouvrier s'est coupé un doigt !", String.valueOf(e));
-            }
-            toBeSend="La voiture n°"+index+" est préparée";
+            if (!voitures.get(index).isPrepare()) toBeSend = ouvrier.prepare();
+            else if (!voitures.get(index).isSorti()) toBeSend = ouvrier.sort();
+            else if (!voitures.get(index).isVendu()) toBeSend="La voiture n°"+index+" a déjà été vendu";
+            else toBeSend="La voiture n°"+index+" est en préparation";
+        }
+        else if (Character.isDigit(received.charAt(0))&&Character.isDigit(received.charAt(received.length()))) {
+
         }
         else toBeSend="404 Not Found";
 

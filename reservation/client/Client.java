@@ -35,6 +35,6 @@ public class Client {
         }
         
         this.logger.log(Level.INFO, new String(dataReceived.getData()));
-        this.logger.log(Level.FINE, "From "+dataReceived.getAddress()+":"+dataReceived.getPort());
+        this.logger.log(Level.FINEST, "From "+dataReceived.getAddress()+":"+dataReceived.getPort());
     }
 }

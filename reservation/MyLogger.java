@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 public class MyLogger {
     private Logger logger;
     private ConsoleHandler handler = new ConsoleHandler();
-    private final Level level = Level.FINEST;
+    private final Level level = Level.FINER;
     
     public MyLogger(String className) {
         this.logger = Logger.getLogger(className);

@@ -21,7 +21,7 @@ public class Launcher {
         MyLogger logger = new MyLogger(Server.class.getName());
         
         for (int index = 0; index < 15; index++) {
-            voitures.add(new Voiture());
+            voitures.add(new Voiture(index));
         }
         
         while(!socket.isClosed()) {
