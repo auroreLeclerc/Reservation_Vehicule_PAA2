@@ -7,7 +7,7 @@ public class Launcher {
         Scanner scan = new Scanner(System.in);
         Client client = new Client("127.0.0.1");
         
-        while(true) {
+        while(scan.hasNext()) {
             String message = scan.nextLine();
             client.query(message);
         }
