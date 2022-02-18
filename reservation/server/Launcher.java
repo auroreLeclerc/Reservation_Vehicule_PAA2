@@ -16,7 +16,7 @@ public class Launcher {
     public static void main(String argv[]) throws IOException, InterruptedException {
         DatagramSocket socket = new DatagramSocket(port);
         InetAddress ip = InetAddress.getByName("127.0.0.1");
-        DatagramPacket data = new DatagramPacket(buffer, buffer.length, ip, port);
+        DatagramPacket data;
         ArrayList<reservation.server.usine.Voiture> voitures = new ArrayList<reservation.server.usine.Voiture>();
         MyLogger logger = new MyLogger(Server.class.getName());
         
@@ -26,6 +26,7 @@ public class Launcher {
         
         while(!socket.isClosed()) {
             logger.log(Level.FINER, "En attente de connection");
+            data = new DatagramPacket(buffer, buffer.length, ip, port);
             socket.receive(data);
             Server server = new Server(socket, data, voitures);
             server.start();

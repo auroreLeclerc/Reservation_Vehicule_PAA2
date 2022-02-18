@@ -48,7 +48,7 @@ class Server extends java.lang.Thread {
                 ;
             }
         }
-        else if (Character.isDigit(received.charAt(0))&&!Character.isDigit(received.charAt(received.length()))) {
+        else if (Character.isDigit(received.charAt(0))) {
             int index = Integer.parseInt(received);
             Ouvrier ouvrier = new Ouvrier(voitures.get(index));
             if (!voitures.get(index).isPrepare()) toBeSend = ouvrier.prepare();
@@ -56,9 +56,9 @@ class Server extends java.lang.Thread {
             else if (!voitures.get(index).isVendu()) toBeSend="La voiture n°"+index+" a déjà été vendu";
             else toBeSend="La voiture n°"+index+" est en préparation";
         }
-        else if (Character.isDigit(received.charAt(0))&&Character.isDigit(received.charAt(received.length()))) {
+        // else if (Character.isDigit(received.charAt(0))&&Character.isDigit(received.charAt(received.length()))) {
 
-        }
+        // }
         else toBeSend="404 Not Found";
 
         byte newBuffer[] = new byte[this.taille];
