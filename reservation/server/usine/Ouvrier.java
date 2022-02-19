@@ -15,7 +15,7 @@ public class Ouvrier {
     }
     
     public String prepare() {
-        if (voiture.isPrepare()) return "La voiture est déjà préparée !";
+        if (voiture.isPrepare()) return "406 Not Acceptable - La voiture est déjà préparée !";
         voiture.setDisponible(false);
         this.logger.log(Level.FINE, "Un ouvrier travaille sur la voiture n°"+index+" pendant "+voiture.getTempsPreparation()+"ms");
         try {
@@ -27,13 +27,27 @@ public class Ouvrier {
             voiture.setPrepare(false);
             voiture.setDisponible(true);
             this.logger.log(Level.SEVERE, "L'ouvrier s'est coupé un doigt !", String.valueOf(e));
-            return "La voiture n°"+index+" n'a pas pu être préparée";
+            return "500 Internal Server Error - La voiture n°"+index+" n'a pas pu être préparée";
         }
     }
     
     public String sort() {
-        if (voiture.isSorti()) return "La voiture est déjà sortie !";
+        if (voiture.isSorti()) return "406 Not Acceptable - La voiture est déjà sortie !";
         voiture.setSorti(true);
+        this.logger.log(Level.FINE, "La voiture n°"+index+" est de sortie");
+        return "N'oubliez pas de rendre la voiture n°"+index;
+    }
+    
+    public String rentre() {
+        if (voiture.isSorti()) return "406 Not Acceptable - La voiture n'est pas de sortie !";
+        voiture.setSorti(false);
+        this.logger.log(Level.FINE, "La voiture n°"+index+" rentrée");
+        return "Merci d'avoir rendu la voiture n°"+index+", alors maintenant on l'achète ?";
+    }
+
+    public String vend() {
+        if (voiture.isVendu()) return "406 Not Acceptable - La voiture est déjà vendue !";
+        voiture.setVendu(true);
         this.logger.log(Level.FINE, "La voiture n°"+index+" est de sortie");
         return "N'oubliez pas de rendre la voiture n°"+index;
     }

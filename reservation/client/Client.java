@@ -20,14 +20,14 @@ public class Client {
         
         int length = input.length();
         byte buffer[] = input.getBytes();
-        DatagramPacket dataSent = new DatagramPacket(buffer, length, this.serveur, port);
+        DatagramPacket dataSent = new DatagramPacket(buffer, length, this.serveur, this.port);
         
         try {
             socket.send(dataSent);
         } catch (IOException e) {
             this.logger.log(Level.SEVERE, "Le serveur est injoignable", String.valueOf(e));
         }
-        DatagramPacket dataReceived = new DatagramPacket(new byte[taille], taille);
+        DatagramPacket dataReceived = new DatagramPacket(new byte[this.taille], this.taille);
         try {
             socket.receive(dataReceived);
         } catch (IOException e) {
