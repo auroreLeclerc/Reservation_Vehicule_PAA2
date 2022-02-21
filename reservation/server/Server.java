@@ -34,28 +34,33 @@ class Server extends java.lang.Thread {
     }
 
     private String requestedData(String received) {
-        String toBeSend="\n";       
+        String toBeSend="\n";
         Pattern regex4 = Pattern.compile("prepare \\d*", Pattern.CASE_INSENSITIVE);
         Pattern regex5 = Pattern.compile("sortir \\d*", Pattern.CASE_INSENSITIVE);
         Pattern regex6 = Pattern.compile("rentrer \\d*", Pattern.CASE_INSENSITIVE);
         Pattern regex7 = Pattern.compile("acheter \\d*", Pattern.CASE_INSENSITIVE);
 
+        if (regex7.matcher(received).find()) {
+            System.out.println("test");
+            // Integer.parseInt(Pattern.compile(".* (\\d*)", Pattern.CASE_INSENSITIVE).matcher(received).group(1));
+        }
+
         Pattern containsNumber = Pattern.compile(".* (\\d*)", Pattern.CASE_INSENSITIVE);
         Matcher matcher = containsNumber.matcher(received);
-        int index = matcher.find() ? Integer.parseInt(matcher.group(1)): 0;
+        int index = matcher.find() ? Integer.parseInt(matcher.group(1))-1 : 0;
 
         if(received.equals("help")) toBeSend+=
             " --- Commandes disponibles --- \n"+
             "help : afficher ce menu \n"+
             "voiture : afficher la liste de voiture \n"+
             "prepare X : prepare la voiture n°X \n"+
-            "sortir X : faire un tour d'essaie avec la voiture n°X \n"+
-            "rentrer X : rentrer la voiture n°X du tour d'essaie \n"+
+            "sortir X : faire un tour d'essai avec la voiture n°X \n"+
+            "rentrer X : rentrer la voiture n°X du tour d'essai \n"+
             "acheter X : acheter la voiture n°X (la rendant vendu) \n";
         else if(received.equals("exit")) toBeSend="Bye Bye =) !";
         else if(received.equals("voiture")) {
             for (int i = 0; i < voitures.size(); i++) {
-                toBeSend+="Voiture n°"+i+" "+
+                toBeSend+="Voiture n°"+(i+1)+" "+
                     (voitures.get(i).isVendu() ?
                         "est déjà vendu\n" : 
                         (voitures.get(i).isDisponible() ? 
