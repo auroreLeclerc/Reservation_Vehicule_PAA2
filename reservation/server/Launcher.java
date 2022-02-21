@@ -21,7 +21,7 @@ public class Launcher {
         while(!socket.isClosed()) {
             Server server = new Server(socket, new Receiver(socket, TAILLE, IP, PORT).run(), voitures);
             server.start();
-            server.join();
+            // server.join();
         }
     }
 }

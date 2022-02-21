@@ -27,6 +27,6 @@ public class Client {
         new Sender(this.socket, this.input, this.ip, this.port).run();
         DatagramPacket dataReceived = new Receiver(this.socket, this.size, this.ip, this.port).run();
         
-        this.logger.log(Level.INFO, new String(dataReceived.getData()));
+        this.logger.log(Level.SEVERE, new String(dataReceived.getData()));
     }
 }

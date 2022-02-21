@@ -40,14 +40,13 @@ class Server extends java.lang.Thread {
         Pattern regex6 = Pattern.compile("rentrer \\d*", Pattern.CASE_INSENSITIVE);
         Pattern regex7 = Pattern.compile("acheter \\d*", Pattern.CASE_INSENSITIVE);
 
-        if (regex7.matcher(received).find()) {
-            System.out.println("test");
-            // Integer.parseInt(Pattern.compile(".* (\\d*)", Pattern.CASE_INSENSITIVE).matcher(received).group(1));
-        }
-
         Pattern containsNumber = Pattern.compile(".* (\\d*)", Pattern.CASE_INSENSITIVE);
         Matcher matcher = containsNumber.matcher(received);
         int index = matcher.find() ? Integer.parseInt(matcher.group(1))-1 : 0;
+        if (index<0||index>15) {
+            logger.log(Level.WARNING, "Index overflow");
+            index = 0;
+        }
 
         if(received.equals("help")) toBeSend+=
             " --- Commandes disponibles --- \n"+
