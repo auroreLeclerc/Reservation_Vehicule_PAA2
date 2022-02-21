@@ -6,12 +6,12 @@ import reservation.MyLogger;
 
 public class Ouvrier {
     private MyLogger logger = new MyLogger(Ouvrier.class.getName());
-    private Voiture voiture;
+    private static Voiture voiture;
     private int index;
 
     public Ouvrier(Voiture voiture) {
-        this.voiture = voiture;
-        this.index = this.voiture.getIndex();
+        Ouvrier.voiture = voiture;
+        this.index = Ouvrier.voiture.getIndex();
     }
     
     public String prepare() {
@@ -31,7 +31,7 @@ public class Ouvrier {
         }
     }
     
-    public String sort() {
+    public String sortir() {
         if (voiture.isSorti()) return "406 Not Acceptable - La voiture est déjà sortie !";
         voiture.setSorti(true);
         this.logger.log(Level.FINE, "La voiture n°"+index+" est de sortie");
@@ -39,7 +39,7 @@ public class Ouvrier {
     }
     
     public String rentre() {
-        if (voiture.isSorti()) return "406 Not Acceptable - La voiture n'est pas de sortie !";
+        if (!voiture.isSorti()) return "406 Not Acceptable - La voiture n'est pas de sortie !";
         voiture.setSorti(false);
         this.logger.log(Level.FINE, "La voiture n°"+index+" rentrée");
         return "Merci d'avoir rendu la voiture n°"+index+", alors maintenant on l'achète ?";
@@ -47,9 +47,10 @@ public class Ouvrier {
 
     public String vend() {
         if (voiture.isVendu()) return "406 Not Acceptable - La voiture est déjà vendue !";
+        else if (voiture.isSorti()) return "406 Not Acceptable - La voiture est pour le moment en sortie !";
         voiture.setVendu(true);
-        this.logger.log(Level.FINE, "La voiture n°"+index+" est de sortie");
-        return "N'oubliez pas de rendre la voiture n°"+index;
+        this.logger.log(Level.FINE, "La voiture n°"+index+" est maintenant vendue");
+        return "Merci d'avoir acheté la voiture n°"+index;
     }
     
 }

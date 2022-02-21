@@ -16,16 +16,14 @@ public class Receiver extends Udp {
     }
 
     public DatagramPacket run() {
+        this.logger.log(Level.FINE, "En attente de connection sur "+this.socket.getLocalSocketAddress());
         try {
-            this.logger.log(Level.FINER, "En attente de connection");
             this.socket.receive(this.data);
-            
-            String received = new String(data.getData(), 0, data.getLength());
-            this.logger.log(Level.FINE, "naaaaaaaaaaaaaaaaaaaaaa");
-
+            this.logger.log(Level.FINEST, "From "+this.data.getAddress()+":"+this.data.getPort());
+            logger.log(Level.INFO, new String(this.data.getData(), 0, this.data.getLength())); // Faut l'enlever et le mettre dans Client mais ça bug
             return this.data;
         } catch (IOException e) {
-            this.logger.log(Level.SEVERE, "Machine distante muette", String.valueOf(e));
+            this.logger.log(Level.SEVERE, "Listening Timeout", String.valueOf(e));
             this.data.setData("408 Request Timeout".getBytes());
             return this.data;
         }

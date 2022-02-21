@@ -8,7 +8,10 @@ import java.util.logging.Logger;
 public class MyLogger {
     private Logger logger;
     private ConsoleHandler handler = new ConsoleHandler();
-    private final Level level = Level.FINER;
+    private String className;
+    private final boolean DEBUG = false;
+    private final Level LEVEL = Level.FINEST;
+    // private final Level LEVEL = Level.INFO;
     
     public MyLogger(String className) {
         LogManager.getLogManager().reset();
@@ -17,19 +20,24 @@ public class MyLogger {
         //https://stackoverflow.com/a/5003248
 
         this.logger = Logger.getLogger(className);
-        this.logger.setLevel(this.level);
-        this.handler.setLevel(this.level);
+        this.logger.setLevel(this.LEVEL);
+        this.handler.setLevel(this.LEVEL);
         this.handler.setFormatter(new MyFormatter());
-        this.logger.removeHandler(handler);
 
         this.logger.addHandler(this.handler);
+
+        this.className = className;
+    }
+
+    private String debugLog(String msg) {
+        return DEBUG ? this.className+"➔ "+msg : msg;
     }
 
     public void log(Level level, String msg){
-        this.logger.log(level, msg);
+        this.logger.log(level, this.debugLog(msg));
     }
 
     public void log(Level level, String msg, String error){
-        this.logger.log(level, msg, error);
+        this.logger.log(level, this.debugLog(msg), error);
     }
 }

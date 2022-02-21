@@ -1,20 +1,28 @@
 package reservation.client;
 import java.io.IOException;
+import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.Scanner;
+import java.util.logging.Level;
+
+import reservation.MyLogger;
+import reservation.udp.Request;
 
 public class Launcher {
+    private final static int PORT = 8532;
+    private final static String IP = "127.0.0.1";
+    private final static int SIZE = 1024;
     public static void main(String argv[]) throws IOException {
+        MyLogger logger = new MyLogger(Launcher.class.getName());
         Scanner scanner = new Scanner(System.in);
-        Client client = new Client("127.0.0.1");
         DatagramSocket socket = new DatagramSocket();
         socket.setSoTimeout(6000);
         
-        client.query("tuto", socket);
+        logger.log(Level.INFO, new Request(socket, SIZE, "help", IP, PORT).run());
         while(scanner.hasNext()) {
-            String message = scanner.nextLine();
-            client.query(message, socket);
-            if(message.equals("exit")) scanner.close();
+            String input = scanner.nextLine();
+            new Client(socket, SIZE, input, IP, PORT).run();
+            if(input.equals("exit")) scanner.close();
         }
     }
 }

@@ -4,37 +4,30 @@ import java.net.*;
 import java.util.logging.Level;
 
 import reservation.MyLogger;
+import reservation.udp.Receiver;
+import reservation.udp.Sender;
 
 public class Client {
-    private final int port = 8532;
-    private final int taille = 1024;
-    private InetAddress serveur;
+    private DatagramSocket socket;
+    private int size;
+    private String input;
+    private String ip;
+    private int port;
     private MyLogger logger = new MyLogger(Client.class.getName());
 
-    Client(String ip) throws UnknownHostException {
-        this.serveur = InetAddress.getByName(ip);
+    Client(DatagramSocket socket, int size, String input, String ip, int port) {
+        this.socket = socket;
+        this.size = size;
+        this.input = input;
+        this.ip = ip;
+        this.port = port;
+        
     }
 
-    public void query(String input, DatagramSocket socket) {
-        this.logger.log(Level.FINEST, "Connection au serveur");
-        
-        int length = input.length();
-        byte buffer[] = input.getBytes();
-        DatagramPacket dataSent = new DatagramPacket(buffer, length, this.serveur, this.port);
-        
-        try {
-            socket.send(dataSent);
-        } catch (IOException e) {
-            this.logger.log(Level.SEVERE, "Le serveur est injoignable", String.valueOf(e));
-        }
-        DatagramPacket dataReceived = new DatagramPacket(new byte[this.taille], this.taille);
-        try {
-            socket.receive(dataReceived);
-        } catch (IOException e) {
-            this.logger.log(Level.SEVERE, "Le serveur est muet", String.valueOf(e));
-        }
+    public void run() throws UnknownHostException {
+        new Sender(this.socket, this.input, this.ip, this.port).run();
+        DatagramPacket dataReceived = new Receiver(this.socket, this.size, this.ip, this.port).run();
         
         this.logger.log(Level.INFO, new String(dataReceived.getData()));
-        this.logger.log(Level.FINEST, "From "+dataReceived.getAddress()+":"+dataReceived.getPort());
     }
 }

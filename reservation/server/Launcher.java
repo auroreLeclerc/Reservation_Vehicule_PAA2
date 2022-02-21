@@ -8,10 +8,10 @@ import reservation.udp.Receiver;
 
 public class Launcher {
     private final static int PORT = 8532;
+    private final static String IP = "127.0.0.1";
     private final static int TAILLE = 1024;
     public static void main(String argv[]) throws IOException, InterruptedException {
         DatagramSocket socket = new DatagramSocket(PORT);
-        String ip = "127.0.0.1";
         ArrayList<reservation.server.usine.Voiture> voitures = new ArrayList<reservation.server.usine.Voiture>();
         
         for (int index = 0; index < 15; index++) {
@@ -19,9 +19,9 @@ public class Launcher {
         }
         
         while(!socket.isClosed()) {
-            Server server = new Server(socket, new Receiver(socket, TAILLE, ip, PORT).run(), voitures);
+            Server server = new Server(socket, new Receiver(socket, TAILLE, IP, PORT).run(), voitures);
             server.start();
-            //server.join();
+            server.join();
         }
     }
 }
