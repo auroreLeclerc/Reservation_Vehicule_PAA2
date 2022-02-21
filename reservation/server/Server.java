@@ -37,8 +37,8 @@ class Server extends java.lang.Thread {
         String toBeSend="\n";       
         Pattern regex4 = Pattern.compile("prepare \\d*", Pattern.CASE_INSENSITIVE);
         Pattern regex5 = Pattern.compile("sortir \\d*", Pattern.CASE_INSENSITIVE);
-        Pattern regex6 = Pattern.compile("rentre \\d*", Pattern.CASE_INSENSITIVE);
-        Pattern regex7 = Pattern.compile("achete \\d*", Pattern.CASE_INSENSITIVE);
+        Pattern regex6 = Pattern.compile("rentrer \\d*", Pattern.CASE_INSENSITIVE);
+        Pattern regex7 = Pattern.compile("acheter \\d*", Pattern.CASE_INSENSITIVE);
 
         Pattern containsNumber = Pattern.compile(".* (\\d*)", Pattern.CASE_INSENSITIVE);
         Matcher matcher = containsNumber.matcher(received);
@@ -50,8 +50,8 @@ class Server extends java.lang.Thread {
             "voiture : afficher la liste de voiture \n"+
             "prepare X : prepare la voiture n°X \n"+
             "sortir X : faire un tour d'essaie avec la voiture n°X \n"+
-            "rentre X : rentrer la voiture n°X du tour d'essaie \n"+
-            "achete X : acheter la voiture n°X (la rendant vendu) \n";
+            "rentrer X : rentrer la voiture n°X du tour d'essaie \n"+
+            "acheter X : acheter la voiture n°X (la rendant vendu) \n";
         else if(received.equals("exit")) toBeSend="Bye Bye =) !";
         else if(received.equals("voiture")) {
             for (int i = 0; i < voitures.size(); i++) {
@@ -59,11 +59,13 @@ class Server extends java.lang.Thread {
                     (voitures.get(i).isVendu() ?
                         "est déjà vendu\n" : 
                         (voitures.get(i).isDisponible() ? 
-                            (voitures.get(i).isPrepare() ?
-                                "est" :
-                                "n'est pas"
-                            )+" préparée\n"
-                        : "n'est pas disponible\n") 
+                            (!voitures.get(i).isSorti() ? 
+                                (voitures.get(i).isPrepare() ?
+                                    "est" :
+                                    "n'est pas"
+                                )+" préparée\n" : 
+                            "est de sortie\n")
+                        : "n'est pas disponible\n")
                     )
                 ;
             }
