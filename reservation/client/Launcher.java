@@ -15,7 +15,7 @@ public class Launcher {
         MyLogger logger = new MyLogger(Launcher.class.getName());
         Scanner scanner = new Scanner(System.in);
         DatagramSocket socket = new DatagramSocket();
-        socket.setSoTimeout(6000);
+        // socket.setSoTimeout(6000);
         
         logger.log(Level.INFO, new Request(socket, SIZE, "help", IP, PORT).run());
         while(scanner.hasNext()) {

@@ -35,7 +35,7 @@ class Server extends java.lang.Thread {
 
     private String requestedData(String received) {
         String toBeSend="\n";
-        Pattern regex4 = Pattern.compile("prepare \\d*", Pattern.CASE_INSENSITIVE);
+        Pattern regex4 = Pattern.compile("preparer \\d*", Pattern.CASE_INSENSITIVE);
         Pattern regex5 = Pattern.compile("sortir \\d*", Pattern.CASE_INSENSITIVE);
         Pattern regex6 = Pattern.compile("rentrer \\d*", Pattern.CASE_INSENSITIVE);
         Pattern regex7 = Pattern.compile("acheter \\d*", Pattern.CASE_INSENSITIVE);
@@ -52,7 +52,7 @@ class Server extends java.lang.Thread {
             " --- Commandes disponibles --- \n"+
             "help : afficher ce menu \n"+
             "voiture : afficher la liste de voiture \n"+
-            "prepare X : prepare la voiture n°X \n"+
+            "preparer X : preparer la voiture n°X \n"+
             "sortir X : faire un tour d'essai avec la voiture n°X \n"+
             "rentrer X : rentrer la voiture n°X du tour d'essai \n"+
             "acheter X : acheter la voiture n°X (la rendant vendu) \n";
@@ -76,7 +76,7 @@ class Server extends java.lang.Thread {
         }
         else if (regex4.matcher(received).find()) {
             Ouvrier ouvrier = new Ouvrier(voitures.get(index));
-            toBeSend = ouvrier.prepare();
+            toBeSend = ouvrier.preparer();
         }
         else if (regex5.matcher(received).find()) {
             Ouvrier ouvrier = new Ouvrier(voitures.get(index));
@@ -84,11 +84,11 @@ class Server extends java.lang.Thread {
         }
         else if (regex6.matcher(received).find()) {
             Ouvrier ouvrier = new Ouvrier(voitures.get(index));
-            toBeSend = ouvrier.rentre();
+            toBeSend = ouvrier.rentrer();
         }
         else if (regex7.matcher(received).find()) {
             Ouvrier ouvrier = new Ouvrier(voitures.get(index));
-            toBeSend = ouvrier.vend();
+            toBeSend = ouvrier.vendre();
         }
         else toBeSend = "404 Not Found - essayer 'help' pour les commandes disponibles";
 

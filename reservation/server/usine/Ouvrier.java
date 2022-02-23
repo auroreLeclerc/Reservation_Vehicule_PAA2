@@ -14,7 +14,8 @@ public class Ouvrier {
         this.index = Ouvrier.voiture.getIndex()+1;
     }
     
-    public String prepare() {
+    public String preparer() {
+        if (voiture.isVendu()) return "406 Not Acceptable - La voiture est déjà vendue !";
         if (voiture.isPrepare()) return "406 Not Acceptable - La voiture est déjà préparée !";
         voiture.setDisponible(false);
         this.logger.log(Level.FINE, "Un ouvrier travaille sur la voiture n°"+index+" pendant "+voiture.getTempsPreparation()+"ms");
@@ -32,22 +33,27 @@ public class Ouvrier {
     }
     
     public String sortir() {
+        if (voiture.isVendu()) return "406 Not Acceptable - La voiture est déjà vendue !";
+        if (!voiture.isPrepare()) return "406 Not Acceptable - La voiture n'est même pas préparée !";
         if (voiture.isSorti()) return "406 Not Acceptable - La voiture est déjà sortie !";
         voiture.setSorti(true);
         this.logger.log(Level.FINE, "La voiture n°"+index+" est de sortie");
         return "N'oubliez pas de rendre la voiture n°"+index;
     }
     
-    public String rentre() {
+    public String rentrer() {
+        if (voiture.isVendu()) return "406 Not Acceptable - La voiture est déjà vendue !";
+        if (!voiture.isPrepare()) return "406 Not Acceptable - La voiture n'est même pas préparée !";
         if (!voiture.isSorti()) return "406 Not Acceptable - La voiture n'est pas de sortie !";
         voiture.setSorti(false);
         this.logger.log(Level.FINE, "La voiture n°"+index+" rentrée");
         return "Merci d'avoir rendu la voiture n°"+index+", alors maintenant on l'achète ?";
     }
 
-    public String vend() {
+    public String vendre() {
         if (voiture.isVendu()) return "406 Not Acceptable - La voiture est déjà vendue !";
-        else if (voiture.isSorti()) return "406 Not Acceptable - La voiture est pour le moment en sortie !";
+        if (!voiture.isPrepare()) return "406 Not Acceptable - La voiture n'est même pas préparée !";
+        if (voiture.isSorti()) return "406 Not Acceptable - La voiture est pour le moment en sortie !";
         voiture.setVendu(true);
         this.logger.log(Level.FINE, "La voiture n°"+index+" est maintenant vendue");
         return "Merci d'avoir acheté la voiture n°"+index;
