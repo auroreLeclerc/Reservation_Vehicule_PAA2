@@ -1,11 +1,11 @@
 # Reservation_Vehicule_PAA2
 Gestion d’une centrale de réservation de véhicules - L3 MIAGE apprentissage - PAA2 - 2022
 
-## Comment lancer
+## Quoi compiler
 ```bash
 javac reservation/client/Launcher.java reservation/server/Launcher.java
 ```
-## Dans deux terminals séparés lancer respectivement
+## Quoi lancer: Dans deux terminals séparés lancer respectivement
 ```bash
 java reservation/server/Launcher 
 ```
