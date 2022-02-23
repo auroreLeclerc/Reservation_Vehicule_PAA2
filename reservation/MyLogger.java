@@ -10,8 +10,8 @@ public class MyLogger {
     private ConsoleHandler handler = new ConsoleHandler();
     private String className;
     private final boolean DEBUG = false;
-    private final Level LEVEL = Level.FINEST;
-    // private final Level LEVEL = Level.INFO;
+    // private final Level LEVEL = Level.FINEST;
+    private final Level LEVEL = Level.INFO;
     
     public MyLogger(String className) {
         LogManager.getLogManager().reset();
